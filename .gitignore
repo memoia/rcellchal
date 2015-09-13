@@ -1,3 +1,5 @@
 /*.sw[po]
 /*.py[co]
 /p1/words.txt
+/p2/opt
+/p2/tail
