@@ -10,7 +10,7 @@ much impossible using the strategy I implemented.
 figured out how to do this with trees. Considering how slow my
 solution can get, maybe next time I'll try this approach.
 
-Summary:
+### Summary
 
 ```
 Given a word from a wordlist, find one anagram with the most number of
@@ -26,7 +26,7 @@ many such with the same number of words).
 In the word list, ignore single character words.
 ```
 
-To use in another application:
+### To use in another application
 
 ```python
 from anagram import (AnagramSolver, WordList)
