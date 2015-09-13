@@ -2,7 +2,7 @@ Problem 2
 ---------
 
 You can create a symlink to the application with ``make``, but this is
-kind of silly. Executing ``tail.py -h`` (to get help options) should
+kind of silly. Executing ``./tail.py -h`` (to get help options) should
 work just fine!
 
 ### Summary

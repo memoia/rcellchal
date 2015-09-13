@@ -48,7 +48,7 @@ class FileMonitor(threading.Thread):
                     self.offset = 0
                 buff = self.next()
                 if buff:
-                    print buff
+                    LOG.info("\n" + buff)
                 self.last_stat = current_stat
             sleep(self.interval)
 
@@ -75,6 +75,36 @@ class MonitorCoordinator(object):
         map(lambda t: t.join(), self.threads)
 
 
+class TailLines(object):
+    def __init__(self, args):
+        self.paths = args.filepath
+        self.lines = args.n
+
+    def _tail(self, path, lines):
+        # read file from end until n+1'th newline
+        characters = []
+        with open(path, 'r') as fd:
+            newline_count = 0
+            offset = 0
+            fd.seek(offset, os.SEEK_END)
+            size = fd.tell()
+            while offset < size and newline_count < lines:
+                # a more sophisticated implementation would
+                # use a buffer rather than go character-by-character....
+                offset += 1
+                fd.seek(-offset, os.SEEK_END)
+                one_character = fd.read(1)
+                if one_character == "\n":
+                    newline_count +=1
+                characters.append(one_character)
+        return ''.join(reversed(characters))
+
+    def run(self):
+        for path in self.paths:
+            LOG.debug(path)
+            LOG.info("\n" + self._tail(path, self.lines))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', action='store_true',
@@ -92,6 +122,8 @@ def main():
     args = parser.parse_args()
     if args.f:
         MonitorCoordinator(args)
+    else:
+        TailLines(args).run()
 
 
 if __name__ == '__main__':
